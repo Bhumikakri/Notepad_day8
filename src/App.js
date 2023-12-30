@@ -1,23 +1,19 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+import PageLoad from './component/LoadingPage';
+import NotePage from './component/notePage';
+
 
 function App() {
+  const[userInfo,setuserInfo] = useState({id:'',body:''});
+
+  useEffect(()=>{
+    localStorage.setItem("notes",JSON.stringify({...userInfo}));
+  },[userInfo.id])
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     {localStorage.getItem("notes")==null ? <PageLoad info={{userInfo,setuserInfo}}/>:<NotePage info={{userInfo,setuserInfo}}/>}
     </div>
   );
 }
