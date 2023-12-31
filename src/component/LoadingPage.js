@@ -1,27 +1,31 @@
 import React from "react";
-import './Loading.css';
+import "./Loading.css";
 
 const PageLoad = (props) => {
+  // Function to handle creating a new note
   function handleCreateNote() {
-    const newId = Math.random() * 20; // Generate a random ID (you might want a better way to generate unique IDs)
-    // props.info.setuserInfo((prevState) => {
-    //   let newArray = [
-    //     ...prevState,
-    //     { id: newId.toString(), body: "# Enter Your title here" },
-    //   ];
-      localStorage.setItem("notes", JSON.stringify([{ id: newId.toString(), body: "# Enter Your title here" }]));
-      props.info.setuserInfo({ id: newId.toString(), body: "# Enter Your title here" });
-    //   console.log(newArray);
+    const newId = Math.random() * 20; // Generate a random ID 
 
-    //   return newArray;
-    // });
+    // Setting the new note in localStorage and updating the state
+    localStorage.setItem(
+      "notes",
+      JSON.stringify([
+        { id: newId.toString(), body: "# Enter Your title here" },
+      ])
+    );
+    props.info.setuserInfo({
+      id: newId.toString(),
+      body: "# Enter Your title here",
+    });
   }
+
+
   return (
     <>
-    <div className="Loadingpage">
-      <h1>You have no notes</h1>
-      <button onClick={handleCreateNote}>Create one now</button>
-    </div>
+      <div className="Loadingpage">
+        <h1>You have no notes</h1>
+        <button onClick={handleCreateNote}>Create one now</button>
+      </div>
     </>
   );
 };
