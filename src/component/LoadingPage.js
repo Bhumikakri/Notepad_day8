@@ -17,6 +17,7 @@ const PageLoad = (props) => {
       id: newId.toString(),
       body: "# Enter Your title here",
     });
+    props.set.setValue(false);
   }
 
 

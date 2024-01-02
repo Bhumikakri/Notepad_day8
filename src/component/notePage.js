@@ -94,16 +94,59 @@ const NotePage=(props)=>{
     // Function to remove a note from the list
 
     function removesavenotes(e) {
-        const index = parseInt(e.target.id); // Convert id to integer
-        const updatedNotes = addNotes.filter((note, idx) => idx !== index);
+        const index = parseInt(e.target.id); // Get the index of the note
+        const updatedNotes = addNotes.filter((note, idx) => idx !== index); // Remove the note from the list
+
     
         // Update state and local storage with the modified notes (after removing the selected note)
         setAddNotes(updatedNotes);
         localStorage.setItem("notes", JSON.stringify(updatedNotes));
         if (updatedNotes.length === 0) {
-            localStorage.removeItem("notes",[]);
+            localStorage.clear();
+            // props.set.setValue(false);
+            window.location.reload();
         }
     }
+
+    const addFormatting = (type) => {
+        switch (type) {
+          case 'heading':
+            setMarkdown((prevData) => `### ${prevData}`);
+            break;
+          case 'bold':
+            setMarkdown((prevData) => `**${prevData}**`);
+            break;
+          case 'italic':
+            setMarkdown((prevData) => `*${prevData}*`);
+            break;
+          case 'strikethrough':
+            setMarkdown((prevData) => `~~${prevData}~~`);
+            break;
+          case 'link':
+            setMarkdown((prevData) => `${prevData}[title]()`);
+            break;
+          case 'quote':
+            setMarkdown((prevData) => `> ${prevData}`);
+            break;
+          case 'code':
+            setMarkdown((prevData) => `\`${prevData}\``);
+            break;
+          case 'image':
+            setMarkdown((prevData) => `![alt text](imageURL)`);
+            break;
+          case 'unorderedList':
+            setMarkdown((prevData) => `- ${prevData}`);
+            break;
+          case 'orderedList':
+            setMarkdown((prevData) => `1. ${prevData}`);
+            break;
+          case 'checkList':
+            setMarkdown((prevData) => `- [ ] ${prevData}`);
+            break;
+          default:
+            break;
+        }
+      };
 
     return(
         <div className="notepage">
@@ -113,7 +156,7 @@ const NotePage=(props)=>{
                 <div className="lowerhead">
                     {
                       addNotes.map((items,index)=>(
-                        <div className="notess"><button id={index} className="type" onClick={getcontents}># Enter your text here</button><button className="fa" onClick={removesavenotes}><i id={index} class="fa-solid fa-trash"></i></button></div>
+                        <div className="notess"><button id={index} className="type" onClick={getcontents}># Enter your title here</button><button className="fa" onClick={removesavenotes}><i id={index} class="fa-solid fa-trash"></i></button></div>
                       ))  
                     }
                 </div>
@@ -123,19 +166,19 @@ const NotePage=(props)=>{
                 <div className="Allbuttons">
                     <button>Write</button>
                     <button onClick={showtextPage}>Preview</button>
-                    <button className="icons"><i class="fa-solid fa-heading"></i></button>
-                    <button className="icons"><i class="fa-solid fa-bold"></i></button>
-                    <button className="icons"><i class="fa-solid fa-italic"></i></button>
-                    <button className="icons"><i class="fa-solid fa-strikethrough"></i></button>
-                    <button className="icons"><i class="fa-solid fa-link"></i></button>
-                    <button className="icons"><i class="fa-solid fa-quote-right"></i></button>
-                    <button className="icons"><i class="fa-solid fa-code"></i></button>
-                    <button className="icons"><i class="fa-solid fa-image"></i></button>
-                    <button className="icons"><i class="fa-solid fa-list-ul"></i></button>
-                    <button className="icons"><i class="fa-solid fa-list-ol"></i></button>
-                    <button className="icons"><i class="fa-solid fa-list-check"></i></button>
+                    <button className="icons" onClick={() => addFormatting('heading')}><i class="fa-solid fa-heading"></i></button>
+                    <button className="icons" onClick={() => addFormatting('bold')}><i class="fa-solid fa-bold"></i></button>
+                    <button className="icons"  onClick={() => addFormatting('italic')}><i class="fa-solid fa-italic"></i></button>
+                    <button className="icons" onClick={() => addFormatting('strikethrough')}><i class="fa-solid fa-strikethrough"></i></button>
+                    <button className="icons" onClick={() => addFormatting('link')}><i className="fa-solid fa-link"></i></button>
+                    <button className="icons" onClick={() => addFormatting('quote')}><i className="fa-solid fa-quote-right"></i></button>
+                    <button className="icons" onClick={() => addFormatting('code')}><i className="fa-solid fa-code"></i></button>
+                    <button className="icons" onClick={() => addFormatting('image')}><i className="fa-solid fa-image"></i></button>
+                    <button className="icons" onClick={() => addFormatting('unorderedList')}><i className="fa-solid fa-list-ul"></i></button>
+                    <button className="icons" onClick={() => addFormatting('orderedList')}><i className="fa-solid fa-list-ol"></i></button>
+                    <button className="icons" onClick={() => addFormatting('checkList')}><i className="fa-solid fa-list-check"></i></button>
                 </div>
-                <textarea value={Markdown} onChange={inputChange} id={Id}/>
+                <textarea value={Markdown}  onChange={inputChange} id={Id}/>
                 </div>
             <div className="Previewpage">
                 <div className="Allbuttons">
